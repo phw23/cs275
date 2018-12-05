@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<header>
+	<meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+	<style>
+		* {
+			font-family: 'Raleway';
+			color: white;
+		}
+
+		body {
+			background-image: url('nba.jpg');
+			background-repeat: no-repeat;
+			background-attachment: fixed;
+			background-position-x: center;
+			background-position-y: bottom 0px;
+			background-color: black;
+		}
+
+		h1 {
+			width: 100%;
+			text-align: center;
+			border-bottom: 1px solid white;
+			padding-bottom: 15px;
+			letter-spacing: 2px;
+		}
+
+		p {
+			font-size: 18px;
+			letter-spacing: 2px;
+
+		}
+
+		p2 {
+			font-size: 12px;
+		}
+
+		#login, #signup {
+			width: 100%;
+			text-align: center;
+		}
+
+		div#signup {
+			display: none;
+		}
+
+		#input {
+			width: 200px;
+			height: 20px;
+			border-radius: 5px;
+		}
+
+		#submit, button#signup {
+			color: black;
+		    border-width: 2px;
+    		border-style: inset;
+    		border-color: initial;
+	    	border-image: initial;
+			background-color: white;
+			width: 75px;
+			height: 25px;
+			border-radius: 5px;
+			margin: 0 auto;
+		}
+
+		#signup {
+			position: relative;
+			right: 2px;
+		}
+
+		::-webkit-input-placeholder {
+			color: black;
+  			text-align: center;
+		}
+
+		:-ms-input-placeholder {  
+ 			color: black;
+ 			text-align: center; 
+		}
+	</style>
+</header>
+<body>
+	<div id="login">
+		<h1>WELCOME TO SPORT WATCHER!</h1>
+		<form action="/login" id="login"> 
+			<p>USERNAME:</p>
+			<input type="text" placeholder="ENTER USERNAME" id="input" required>
+			<br>
+			<p>PASSWORD:</p>
+			<input type="password" placeholder="ENTER PASSWORD" id="input" required>
+			<br><br>
+			<button type="submit" id="submit">LOGIN</button>
+			<br><br>
+			<button type="button" id="signup">SIGN UP</button>
+		</form>
+	</div>
+	<script>
+		$(document).ready(function(){
+			$("button#signup").click(function(){
+				$("form#login").hide();
+				$("div#signup").show();
+			});
+		});
+	</script>
+	<div id="signup">
+		<form action="/signup" id="signup">
+			<p>USERNAME:</p>
+			<input type="text" placeholder="ENTER USERNAME" id="input" required>
+			<br>
+			<p>PASSWORD:</p>
+			<input type="password" placeholder="ENTER PASSWORD" id="input" required>
+			<br>
+			<p>TEAM:</p>
+			<select>
+				<option value="volvo" selected>Volvo</option>
+  				<option value="volvo">Volvo</option>
+  				<option value="saab">Saab</option>
+  				<option value="fiat">Fiat</option>
+  				<option value="audi">Audi</option>
+  				<option value="volvo">Volvo</option>
+  				<option value="volvo">Volvo</option>
+  				<option value="saab">Saab</option>
+  				<option value="fiat">Fiat</option>
+  				<option value="audi">Audi</option>
+  				<option value="volvo">Volvo</option>
+  				<option value="volvo">Volvo</option>
+  				<option value="saab">Saab</option>
+  				<option value="fiat">Fiat</option>
+  				<option value="audi">Audi</option>
+  				<option value="volvo">Volvo</option>
+  				<option value="volvo">Volvo</option>
+  				<option value="saab">Saab</option>
+  				<option value="fiat">Fiat</option>
+  				<option value="audi">Audi</option>
+  				<option value="volvo">Volvo</option>
+  				<option value="volvo">Volvo</option>
+  				<option value="saab">Saab</option>
+  				<option value="fiat">Fiat</option>
+  				<option value="audi">Audi</option>
+  				<option value="volvo">Volvo</option>
+  				<option value="volvo">Volvo</option>
+  				<option value="saab">Saab</option>
+  				<option value="fiat">Fiat</option>
+  				<option value="audi">Audi</option>
+  				<option value="volvo">Volvo</option>
+			</select>
+			<br><br>
+			<button type="sbubmit" id="signup">SIGN UP</button>
+		</form>
+	</div>	
+</body>
+</html>
