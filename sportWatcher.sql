@@ -3,16 +3,29 @@ CREATE DATABASE IF NOT EXISTS sport;
 USE sport;
 
 CREATE TABLE team(
-    id INT key AUTO_INCREMENT,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     team VARCHAR(255),
     city VARCHAR(255),
     conf VARCHAR(20)
 );
 
 CREATE TABLE user(
-    id VARCHAR(255) key,
+    id VARCHAR(255) PRIMARY KEY,
     pass VARCHAR(255)
 );
+
+CREATE TABLE user_team(
+    user_id VARCHAR(255),
+    team_id INT
+);
+
+ALTER TABLE user_team
+ADD CONSTRAINT FK_userteam
+FOREIGN KEY (user_id) REFERENCES user(id);
+
+ALTER TABLE user_team
+ADD CONSTRAINT FK_teamuser
+FOREIGN KEY (team_id) REFERENCES team(id);
 
 INSERT INTO team (team, city, conf)
 VALUES 
@@ -46,3 +59,4 @@ VALUES
 INSERT INTO user (id, pass)
 VALUES
 ('user','password');
+
