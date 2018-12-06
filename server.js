@@ -4,6 +4,7 @@ var mysql = require('mysql');
 var bcrypt = require('bcryptjs');
 var fs = require('fs');
 var bodyParser = require("body-parser");
+var nbaFile = require('./NBA')
 
 var app = express();
 app.use(express.static('.'));
@@ -37,10 +38,8 @@ con.connect(function (err) {
 	}
 });
 
-// Single database endpoints
 app.get('/', function (req, resp) { resp.send(fs.readFileSync('SportWatcher.html', 'utf8'));})
 
-// Single database endpoints
 app.get('/teams', function (req, resp) {
 	var queryStr = 'Select * from team;'
 	con.query(queryStr, function (err, rows, fields) {
@@ -52,7 +51,7 @@ app.get('/teams', function (req, resp) {
 	});
 })
 
-// Single database endpoints
+// Todo: Make Post 
 app.get('/signup', function (req, resp) {
 	var user = req.query.user;
 	var password = req.query.password;
@@ -63,7 +62,7 @@ app.get('/signup', function (req, resp) {
 		else
 			rows = rows.filter(u => u.id === user)
 			if (rows.length === 0) {
-				// Protect from injection later
+				// Todo: Protect from injection later
 				bcrypt.hash(password, 10, function(err, hash) {
 					var insertStr = "Insert into user (id, pass) VALUES ('" + user + "', '" + hash + "');"
 					con.query(insertStr, function (err) {
@@ -76,7 +75,7 @@ app.get('/signup', function (req, resp) {
 	});
 })
 
-// Single database endpoints
+// Todo: Make Post
 app.get('/login', function (req, resp) {
 	var user = req.query.user;
 	var password = req.query.password;
@@ -87,7 +86,6 @@ app.get('/login', function (req, resp) {
 		else
 			row = rows.find(u => u.id === user)
 			if (rows.length > 0) {
-				// Protect from injection later
 				bcrypt.compare(password, row.pass, function(err, result) {
 					resp.send(result)
 				});
@@ -96,10 +94,21 @@ app.get('/login', function (req, resp) {
 	});
 })
 
-
-// Checking password bcrypt.compare(password, hash, function(err, result) {});
-
-
+var nba = new nbaFile.NBA();
+app.get('/api', function(req, resp){
+	nba.once('Finished', function (msg) {
+		resp.send(msg);
+	})
+	// Todo: Get current Date
+	var date = {
+		year:'2018',
+		month:'12',
+		day:'1'
+	}
+	// Todo: Find team from request and input id from database
+	var team = 'Knicks'
+	nba.getGame(date,team)
+})
 
 // Server listener
 app.listen(8080, function () {
