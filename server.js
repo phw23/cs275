@@ -3,9 +3,13 @@ var express = require('express');
 var mysql = require('mysql');
 var bcrypt = require('bcryptjs');
 var fs = require('fs');
+var bodyParser = require("body-parser");
 
 var app = express();
 app.use(express.static('.'));
+app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.json());
+
 
 /* Emitter 
 var t = new topics.Topics();
@@ -32,6 +36,9 @@ con.connect(function (err) {
 		console.log();
 	}
 });
+
+// Single database endpoints
+app.get('/', function (req, resp) { resp.send(fs.readFileSync('SportWatcher.html', 'utf8'));})
 
 // Single database endpoints
 app.get('/teams', function (req, resp) {
@@ -63,6 +70,26 @@ app.get('/signup', function (req, resp) {
 						if (err) {console.log('Error during user insert: ' + err)}
 						else {resp.send(true);}
 					});
+				});
+			} else (resp.send(false)) 
+			
+	});
+})
+
+// Single database endpoints
+app.get('/login', function (req, resp) {
+	var user = req.query.user;
+	var password = req.query.password;
+	var queryStr = 'Select * from user;'
+	con.query(queryStr, function (err, rows, fields) {
+		if (err)
+			console.log('Error during query processing: ' + err);
+		else
+			row = rows.find(u => u.id === user)
+			if (rows.length > 0) {
+				// Protect from injection later
+				bcrypt.compare(password, row.pass, function(err, result) {
+					resp.send(result)
 				});
 			} else (resp.send(false)) 
 			
