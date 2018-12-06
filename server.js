@@ -46,7 +46,7 @@ app.get('/teams', function (req, resp) {
 })
 
 // Single database endpoints
-app.get('/register', function (req, resp) {
+app.get('/signup', function (req, resp) {
 	var user = req.query.user;
 	var password = req.query.password;
 	var queryStr = 'Select * from user;'
