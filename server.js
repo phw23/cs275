@@ -46,7 +46,6 @@ app.get('/teams', function (req, resp) {
 		if (err)
 			console.log('Error during query processing: ' + err);
 		else
-			console.log(rows)
 			resp.send(rows);
 	});
 })
@@ -94,20 +93,33 @@ app.get('/login', function (req, resp) {
 	});
 })
 
+// Get request takes a team name (i.e. "Knicks" or "Celtics") and returns stats about their game today if one exists
 var nba = new nbaFile.NBA();
 app.get('/api', function(req, resp){
 	nba.once('Finished', function (msg) {
 		resp.send(msg);
 	})
-	// Todo: Get current Date
+	var today = new Date();
 	var date = {
-		year:'2018',
-		month:'12',
-		day:'1'
+		year:today.getFullYear(),
+		month:today.getMonth()+1,
+		day:today.getDate()
 	}
-	// Todo: Find team from request and input id from database
-	var team = 'Knicks'
-	nba.getGame(date,team)
+	var teamName = req.query.team
+	// Todo: Protect from injection later
+	var queryStr = 'Select teamID from team WHERE team=' + teamName + ';'
+	con.query(queryStr, function (err, rows, fields) {
+		if (err) {
+			console.log('Error during query processing: ' + err);
+			resp.send('Error during query processing: ' + err);
+		} else {
+			if (rows.length > 0 ){
+				nba.getGame(date,rows[0].teamID)
+			} else {
+				resp.send("Improper team selected")
+			}
+		}
+	});
 })
 
 // Server listener
