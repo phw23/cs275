@@ -38,8 +38,10 @@ con.connect(function (err) {
 	}
 });
 
+// Default page
 app.get('/', function (req, resp) { resp.send(fs.readFileSync('SportWatcher.html', 'utf8'));})
 
+// Return team data in database
 app.get('/teams', function (req, resp) {
 	var queryStr = 'Select * from team;'
 	con.query(queryStr, function (err, rows, fields) {
@@ -50,6 +52,7 @@ app.get('/teams', function (req, resp) {
 	});
 })
 
+// Create an account
 // Todo: Make Post 
 app.get('/signup', function (req, resp) {
 	var user = req.query.user;
@@ -74,6 +77,7 @@ app.get('/signup', function (req, resp) {
 	});
 })
 
+// Validate username password combination
 // Todo: Make Post
 app.get('/login', function (req, resp) {
 	var user = req.query.user;
@@ -93,18 +97,12 @@ app.get('/login', function (req, resp) {
 	});
 })
 
-// Get request takes a team name (i.e. "Knicks" or "Celtics") and returns stats about their game today if one exists
 var nba = new nbaFile.NBA();
-app.get('/api', function(req, resp){
+// Get request takes a team name (i.e. "Knicks" or "Celtics") and returns stats about their game today if one exists
+app.get('/api/team', function(req, resp){
 	nba.once('Finished', function (msg) {
 		resp.send(msg);
 	})
-	var today = new Date();
-	var date = {
-		year:today.getFullYear(),
-		month:today.getMonth()+1,
-		day:today.getDate()
-	}
 	var teamName = req.query.team
 	// Todo: Protect from injection later
 	var queryStr = 'Select teamID from team WHERE team=' + teamName + ';'
@@ -114,12 +112,20 @@ app.get('/api', function(req, resp){
 			resp.send('Error during query processing: ' + err);
 		} else {
 			if (rows.length > 0 ){
-				nba.getGame(date,rows[0].teamID)
+				nba.getGame(rows[0].teamID);
 			} else {
-				resp.send("Improper team selected")
+				resp.send("Improper team selected");
 			}
 		}
 	});
+})
+
+// Returns all games for today
+app.get('/api/games', function(req, resp){
+	nba.once('Finished', function (msg) {
+		resp.send(msg);
+	})
+	nba.getGames();
 })
 
 // Server listener
