@@ -105,14 +105,14 @@ app.get('/api/team', function(req, resp){
 	})
 	var teamName = req.query.team
 	// Todo: Protect from injection later
-	var queryStr = 'Select teamID from team WHERE team=' + teamName + ';'
+	var queryStr = 'Select api from team WHERE team="' + teamName + '";'
 	con.query(queryStr, function (err, rows, fields) {
 		if (err) {
 			console.log('Error during query processing: ' + err);
 			resp.send('Error during query processing: ' + err);
 		} else {
 			if (rows.length > 0 ){
-				nba.getGame(rows[0].teamID);
+				nba.getGame(rows[0].api);
 			} else {
 				resp.send("Improper team selected");
 			}
