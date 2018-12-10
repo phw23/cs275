@@ -8,7 +8,7 @@ var nbaFile = require('./NBA')
 
 var app = express();
 app.use(express.static('.'));
-app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Connect to database
@@ -28,7 +28,7 @@ con.connect(function (err) {
 });
 
 // Default page
-app.get('/', function (req, resp) { resp.send(fs.readFileSync('SportWatcher.html', 'utf8'));})
+app.get('/', function (req, resp) { resp.send(fs.readFileSync('SportWatcher.html', 'utf8')); })
 
 // Return team data in database
 app.get('/teams', function (req, resp) {
@@ -42,53 +42,83 @@ app.get('/teams', function (req, resp) {
 })
 
 // Create an account
-// Todo: Make Post 
-app.get('/signup', function (req, resp) {
-	var user = req.query.user;
-	var password = req.query.password;
+//Todo: Make return not boolean
+app.post('/signup', function (req, resp) {
+	var user = req.body.user;
+	var password = req.body.password;
+	var team = req.body.team;
 	var queryStr = 'Select * from user;'
 	con.query(queryStr, function (err, rows, fields) {
 		if (err)
 			console.log('Error during query processing: ' + err);
-		else
+		else {
 			rows = rows.filter(u => u.id === user)
 			if (rows.length === 0) {
 				// Todo: Protect from injection later
-				bcrypt.hash(password, 10, function(err, hash) {
+				bcrypt.hash(password, 10, function (err, hash) {
 					var insertStr = "Insert into user (id, pass) VALUES ('" + user + "', '" + hash + "');"
 					con.query(insertStr, function (err) {
-						if (err) {console.log('Error during user insert: ' + err)}
-						else {resp.send(true);}
+						if (err) {
+							console.log('Error during user insert: ' + err)
+							resp.send(false)
+						}
+						else {
+							var queryStr = 'Select id from team WHERE team="' + team + '";'
+							con.query(queryStr, function (err, rows, fields) {
+								if (err) {
+									console.log('Error during team query processing: ' + err);
+									resp.send(false)
+								} else {
+									if (rows.length > 0) {
+										var teamID = rows[0].id;
+										console.log(teamID)
+										var insertTeamStr = "Insert into user_team (user_id, team_id) VALUES ('" + user + "', '" + teamID + "');"
+										con.query(insertTeamStr, function (err) {
+											if (err) {
+												console.log('Error during user_team insert: ' + err)
+												resp.send(false)
+											}
+											else {
+												resp.send(true);
+											}
+										});
+									} else {
+										console.log("Improper team selected");
+										resp.send(false)
+									}
+								}
+							});
+						}
 					});
 				});
-			} else (resp.send(false)) 
-			
+			} else { (resp.send(false)) }
+		}
 	});
 })
 
 // Validate username password combination
-// Todo: Make Post
-app.get('/login', function (req, resp) {
-	var user = req.query.user;
-	var password = req.query.password;
+// Todo: Make return not boolean
+app.post('/login', function (req, resp) {
+	var user = req.body.user;
+	var password = req.body.password;
 	var queryStr = 'Select * from user;'
 	con.query(queryStr, function (err, rows, fields) {
 		if (err)
 			console.log('Error during query processing: ' + err);
-		else
+		else {
 			row = rows.find(u => u.id === user)
 			if (rows.length > 0) {
-				bcrypt.compare(password, row.pass, function(err, result) {
+				bcrypt.compare(password, row.pass, function (err, result) {
 					resp.send(result)
 				});
-			} else (resp.send(false)) 
-			
+			} else (resp.send(false))
+		}
 	});
 })
 
 var nba = new nbaFile.NBA();
 // Get request takes a team name (i.e. "Knicks" or "Celtics") and returns stats about their game today if one exists
-app.get('/api/team', function(req, resp){
+app.get('/api/team', function (req, resp) {
 	nba.once('Finished', function (msg) {
 		resp.send(msg);
 	})
@@ -100,7 +130,7 @@ app.get('/api/team', function(req, resp){
 			console.log('Error during query processing: ' + err);
 			resp.send('Error during query processing: ' + err);
 		} else {
-			if (rows.length > 0 ){
+			if (rows.length > 0) {
 				nba.getGame(rows[0].api);
 			} else {
 				resp.send("Improper team selected");
@@ -110,7 +140,7 @@ app.get('/api/team', function(req, resp){
 })
 
 // Returns all games for today
-app.get('/api/games', function(req, resp){
+app.get('/api/games', function (req, resp) {
 	nba.once('Finished', function (msg) {
 		resp.send(msg);
 	})

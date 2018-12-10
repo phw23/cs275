@@ -13,7 +13,6 @@
 		}
 
 		body {
-			background-image: url('nba.jpg');
 			background-repeat: no-repeat;
 			background-attachment: fixed;
 			background-position-x: center;
@@ -37,12 +36,26 @@
 			font-size: 18px;
 			letter-spacing: 2px;
 		}
-
+		.login, #login {
+			width: auto;
+			text-align: center;
+			color: black;
+		}
+		.login, #loginSignup {
+			width: auto;
+			text-align: center;
+			color: black;
+		}
 		.login, #signup {
 			width: auto;
 			text-align: center;
+			color: black;
 		}
-
+		.login, #signupButton {
+			width: auto;
+			text-align: center;
+			color: black;
+		}
 		div#signup {
 			display: none;
 		}
@@ -82,47 +95,6 @@
  			text-align: center; 
 		}
 	</style>
-	<script>
-		function signUp() {
-			var URL = "/signup";
-			var username = document.getElementById("username").value;
-			var password = document.getElementById("password").value;
-			$.ajax({
-				url: URL,
-				type: "GET",
-				data: {
-					"user":username,
-					"password":password
-				},
-				success: function(msg){
-					alert("Success");
-				},
-				error: function(){
-						alert("Error");
-				}
-			});
-		}
-
-		function login() {
-			var URL = "/login";
-			var username = document.getElementById("userLogin").value;
-			var password = document.getElementById("passwordLogin").value;
-			$.ajax({
-				url: URL,
-				type: "GET", 
-				data: {
-					"user":username,
-					"password":password
-				}, 
-				success: function(msg){
-					alert("Success");
-				},
-				error: function(){
-						alert("Error");
-				}
-			})
-		}
-	</script>
 </header>
 <body>
 	<h1>WELCOME TO SPORT WATCHER!</h1>
@@ -135,14 +107,14 @@
 			<p>PASSWORD:</p>
 			<input type="password" placeholder="ENTER PASSWORD" class="input" id="passwordLogin" name="password" required>
 			<br><br>
-			<button type="submit" id="submit">LOGIN</button>
+			<button type="submit" id="login">LOGIN</button>
 			<br><br>
-			<button type="button" id="signup">SIGN UP</button>
+			<button type="button" id="loginSignup">SIGN UP</button>
 		</form>
 	</div>
 	<script>
 		$(document).ready(function(){
-			$("button#signup").click(function(){
+			$("button#loginSignup").click(function(){
 				$("form.login").hide();
 				$("div#signup").show();
 			});
@@ -192,7 +164,7 @@
   				<option value="wizards">Washington Wizards</option>
 			</select>
 			<br><br>
-			<button type="submit" id="signup">SIGN UP</button>
+			<button type="submit" id="signupButton">SIGN UP</button>
 		</form>
 	</div>
 </body>
