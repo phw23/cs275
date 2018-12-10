@@ -29,18 +29,17 @@
 			letter-spacing: 2px;
 		}
 
+		h2 {
+			letter-spacing: 2px;	
+		}
+
 		p {
 			font-size: 18px;
 			letter-spacing: 2px;
-
 		}
 
-		p2 {
-			font-size: 12px;
-		}
-
-		#login, #signup {
-			width: 100%;
+		.login, #signup {
+			width: auto;
 			text-align: center;
 		}
 
@@ -48,10 +47,11 @@
 			display: none;
 		}
 
-		#input {
+		.input, select#team, select option {
 			width: 200px;
 			height: 20px;
 			border-radius: 5px;
+			color: black;
 		}
 
 		#submit, button#signup {
@@ -82,18 +82,60 @@
  			text-align: center; 
 		}
 	</style>
+	<script>
+		function signUp() {
+			var URL = "/signup";
+			var username = document.getElementById("username").value;
+			var password = document.getElementById("password").value;
+			$.ajax({
+				url: URL,
+				type: "GET",
+				data: {
+					"user":username,
+					"password":password
+				},
+				success: function(msg){
+					alert("Success");
+				},
+				error: function(){
+						alert("Error");
+				}
+			});
+		}
+
+		function login() {
+			var URL = "/login";
+			var username = document.getElementById("userLogin").value;
+			var password = document.getElementById("passwordLogin").value;
+			$.ajax({
+				url: URL,
+				type: "GET", 
+				data: {
+					"user":username,
+					"password":password
+				}, 
+				success: function(msg){
+					alert("Success");
+				},
+				error: function(){
+						alert("Error");
+				}
+			})
+		}
+	</script>
 </header>
 <body>
+	<h1>WELCOME TO SPORT WATCHER!</h1>
 	<div id="login">
-		<h1>WELCOME TO SPORT WATCHER!</h1>
-		<form action="/login" id="login"> 
+		<form action="/login" class="login">
+			<h2>LOG IN TO ACCESS YOUR ACCOUNT</h2>
 			<p>USERNAME:</p>
-			<input type="text" placeholder="ENTER USERNAME" id="input" required>
+			<input type="text" placeholder="ENTER USERNAME" class="input" id="userLogin" required>
 			<br>
 			<p>PASSWORD:</p>
-			<input type="password" placeholder="ENTER PASSWORD" id="input" required>
+			<input type="password" placeholder="ENTER PASSWORD" class="input" id="passwordLogin" required>
 			<br><br>
-			<button type="submit" id="submit">LOGIN</button>
+			<button type="submit" id="submit" onclick="login()">LOGIN</button>
 			<br><br>
 			<button type="button" id="signup">SIGN UP</button>
 		</form>
@@ -101,56 +143,57 @@
 	<script>
 		$(document).ready(function(){
 			$("button#signup").click(function(){
-				$("form#login").hide();
+				$("form.login").hide();
 				$("div#signup").show();
 			});
 		});
 	</script>
 	<div id="signup">
 		<form action="/signup" id="signup">
+			<h2>SIGN UP TO CREATE YOUR ACCOUNT</h2>
 			<p>USERNAME:</p>
-			<input type="text" placeholder="ENTER USERNAME" id="input" required>
+			<input type="text" placeholder="ENTER USERNAME" class="input" id="username" required>
 			<br>
 			<p>PASSWORD:</p>
-			<input type="password" placeholder="ENTER PASSWORD" id="input" required>
+			<input type="password" placeholder="ENTER PASSWORD" class="input" id="password" required>
 			<br>
-			<p>TEAM:</p>
-			<select>
-				<option value="volvo" selected>Volvo</option>
-  				<option value="volvo">Volvo</option>
-  				<option value="saab">Saab</option>
-  				<option value="fiat">Fiat</option>
-  				<option value="audi">Audi</option>
-  				<option value="volvo">Volvo</option>
-  				<option value="volvo">Volvo</option>
-  				<option value="saab">Saab</option>
-  				<option value="fiat">Fiat</option>
-  				<option value="audi">Audi</option>
-  				<option value="volvo">Volvo</option>
-  				<option value="volvo">Volvo</option>
-  				<option value="saab">Saab</option>
-  				<option value="fiat">Fiat</option>
-  				<option value="audi">Audi</option>
-  				<option value="volvo">Volvo</option>
-  				<option value="volvo">Volvo</option>
-  				<option value="saab">Saab</option>
-  				<option value="fiat">Fiat</option>
-  				<option value="audi">Audi</option>
-  				<option value="volvo">Volvo</option>
-  				<option value="volvo">Volvo</option>
-  				<option value="saab">Saab</option>
-  				<option value="fiat">Fiat</option>
-  				<option value="audi">Audi</option>
-  				<option value="volvo">Volvo</option>
-  				<option value="volvo">Volvo</option>
-  				<option value="saab">Saab</option>
-  				<option value="fiat">Fiat</option>
-  				<option value="audi">Audi</option>
-  				<option value="volvo">Volvo</option>
+			<p>FAVORITE NBA TEAM:</p>
+			<select id="team" name="teams">
+				<option value="default" disabled selected value>Choose an NBA team</option>
+				<option value="hawks">Atlanta Hawks</option>
+  				<option value="celtics">Boston Celtics</option>
+  				<option value="nets">Brooklyn Nets</option>
+  				<option value="hornets">Charlotte Hornets</option>
+  				<option value="bulls">Chicago Bulls</option>
+  				<option value="cavaliers">Cleveland Cavaliers</option>
+  				<option value="mavericks">Dallas Mavericks</option>
+  				<option value="nuggets">Denver Nuggets</option>
+  				<option value="pistons">Detroit Pistons</option>
+  				<option value="warriors">Golden State Warriors</option>
+  				<option value="rockets">Houston Rockets</option>
+  				<option value="pacers">Indiana Pacers</option>
+  				<option value="clippers">LA Clippers</option>
+  				<option value="lakers">Los Angeles Lakers</option>
+  				<option value="grizzlies">Memphis Grizzlies</option>
+  				<option value="heat">Miami Heat</option>
+  				<option value="bucks">Milwaukee Bucks</option>
+  				<option value="timberwolves">Minnesota Timberwolves</option>
+  				<option value="pelicans">New Orleans Pelicans</option>
+  				<option value="knicks">New York Knicks</option>
+  				<option value="thunder">Oklahoma City Thunder</option>
+  				<option value="magic">Orlando Magic</option>
+  				<option value="76ers">Philadelphia 76ers</option>
+  				<option value="suns">Phoenix Suns</option>
+  				<option value="blazers">Portland Trail Blazers</option>
+  				<option value="kings">Sacramento Kings</option>
+  				<option value="spurs">San Antonio Spurs</option>
+  				<option value="raptors">Toronto Raptors</option>
+  				<option value="jazz">Utah Jazz</option>
+  				<option value="wizards">Washington Wizards</option>
 			</select>
 			<br><br>
-			<button type="sbubmit" id="signup">SIGN UP</button>
+			<button type="submit" id="signup" onclick="signUp()">SIGN UP</button>
 		</form>
-	</div>	
+	</div>
 </body>
 </html>
