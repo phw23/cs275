@@ -11,17 +11,6 @@ app.use(express.static('.'));
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
-
-/* Emitter 
-var t = new topics.Topics();
-app.get('/topics', function(req, resp){
-	t.once('Finished', function (msg) {
-		resp.send(msg);
-	})
-	t.getTopics()
-});
-*/
-
 // Connect to database
 var con = mysql.createConnection({
 	host: 'localhost',

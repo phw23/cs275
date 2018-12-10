@@ -127,15 +127,15 @@
 <body>
 	<h1>WELCOME TO SPORT WATCHER!</h1>
 	<div id="login">
-		<form action="/login" class="login">
+		<form action="/login" class="login" method="POST">
 			<h2>LOG IN TO ACCESS YOUR ACCOUNT</h2>
 			<p>USERNAME:</p>
-			<input type="text" placeholder="ENTER USERNAME" class="input" id="userLogin" required>
+			<input type="text" placeholder="ENTER USERNAME" class="input" id="userLogin" name="user" required>
 			<br>
 			<p>PASSWORD:</p>
-			<input type="password" placeholder="ENTER PASSWORD" class="input" id="passwordLogin" required>
+			<input type="password" placeholder="ENTER PASSWORD" class="input" id="passwordLogin" name="password" required>
 			<br><br>
-			<button type="submit" id="submit" onclick="login()">LOGIN</button>
+			<button type="submit" id="submit">LOGIN</button>
 			<br><br>
 			<button type="button" id="signup">SIGN UP</button>
 		</form>
@@ -149,16 +149,16 @@
 		});
 	</script>
 	<div id="signup">
-		<form action="/signup" id="signup">
+		<form action="/signup" id="signup" method="POST">
 			<h2>SIGN UP TO CREATE YOUR ACCOUNT</h2>
 			<p>USERNAME:</p>
-			<input type="text" placeholder="ENTER USERNAME" class="input" id="username" required>
+			<input type="text" placeholder="ENTER USERNAME" class="input" id="username" name='user' required>
 			<br>
 			<p>PASSWORD:</p>
-			<input type="password" placeholder="ENTER PASSWORD" class="input" id="password" required>
+			<input type="password" placeholder="ENTER PASSWORD" class="input" id="password" name='password' required>
 			<br>
 			<p>FAVORITE NBA TEAM:</p>
-			<select id="team" name="teams">
+			<select id="team" name="team">
 				<option value="default" disabled selected value>Choose an NBA team</option>
 				<option value="hawks">Atlanta Hawks</option>
   				<option value="celtics">Boston Celtics</option>
@@ -192,7 +192,7 @@
   				<option value="wizards">Washington Wizards</option>
 			</select>
 			<br><br>
-			<button type="submit" id="signup" onclick="signUp()">SIGN UP</button>
+			<button type="submit" id="signup">SIGN UP</button>
 		</form>
 	</div>
 </body>
