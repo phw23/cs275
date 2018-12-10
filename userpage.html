@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<header>
+	<meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+	<style>
+		* {
+			font-family: 'Raleway';
+			color: white;
+		}
+
+		body {
+			background-image: url('jordan.jpg');
+			background-repeat: no-repeat;
+			background-attachment: fixed;
+			background-size: cover;
+			background-position-x: center;
+			background-position-y: bottom 0px;
+			background-color: black;
+		}
+
+		html {
+			max-width: 100%;
+			overflow-x: hidden;
+		}
+
+		h1 {
+			width: 100%;
+			text-align: center;
+			border-bottom: 1px solid white;
+			padding-bottom: 15px;
+			letter-spacing: 5px;
+		}
+
+		h2 {
+			letter-spacing: 2px;	
+		}
+
+		p {
+			font-size: 18px;
+			letter-spacing: 2px;
+		}
+
+		.login, #signup {
+			width: auto;
+			text-align: center;
+		}
+
+		div#signup {
+			display: none;
+		}
+
+		.input, select#team, select option {
+			width: 200px;
+			height: 20px;
+			border-radius: 5px;
+			color: black;
+		}
+
+		#submit, button#signup {
+			color: black;
+		    border-width: 2px;
+    		border-style: inset;
+    		border-color: initial;
+	    	border-image: initial;
+			background-color: white;
+			width: 75px;
+			height: 25px;
+			border-radius: 5px;
+			margin: 0 auto;
+		}
+
+		#signup {
+			position: relative;
+			right: 2px;
+		}
+
+		::-webkit-input-placeholder {
+			color: black;
+  			text-align: center;
+		}
+
+		:-ms-input-placeholder {  
+ 			color: black;
+ 			text-align: center; 
+		}
+
+		#teams {
+			text-align: center;
+			width: 100%;
+		}
+
+		.column {
+			float: left;
+			width: 20%;
+		}
+
+		.team {
+			text-align: center;
+			width: 100px;
+			height: 100px;
+			padding-top: 50px;
+			padding-bottom: 50px;
+			cursor: pointer;
+		}
+	</style>
+	<script>
+		$(document).ready(function(){
+			$(".team").click(function(){
+				var id = $(this).attr('id');
+				$.ajax({
+					
+				})
+			})
+		})
+	</script>
+</header>
+<body>
+	<h1>SPORTWATCHER</h1>
+	<div id="teams" class="row">
+		<h2>CHOOSE AN NBA TEAM YOU WOULD LIKE TO TRACK</h2>
+		<div class="column">
+			<img src="blazers.png" id="blazers" class="team"><br>
+			<img src="cavaliers.png" id="cavaliers" class="team"><br>
+			<img src="grizzlies.png" id="grizzlies" class="team"><br>
+			<img src="hornets.png" id="hornets" class="team"><br>
+			<img src="knicks.png" id="knicks" class="team"><br>
+			<img src="mavericks.png" id="mavericks" class="team"><br>
+		</div>
+		<div class="column">
+			<img src="bucks.png" id="bucks" class="team"><br>
+			<img src="celtics.png" id="celtics" class="team"><br>
+			<img src="hawks.png" id="hawks" class="team"><br>
+			<img src="jazz.png" id="jazz" class="team"><br>
+			<img src="lakers.png" id="lakers" class="team"><br>
+			<img src="nets.png" id="nets" class="team"><br>
+		</div>
+		<div class="column">
+			<img src="bulls.png" id="bulls" class="team"><br>
+			<img src="clippers.png" id="clippers" class="team"><br>
+			<img src="heat.png" id="heat" class="team"><br>
+			<img src="kings.png" id="kings" class="team"><br>
+			<img src="magic.png" id="magic" class="team"><br>
+			<img src="nuggets.png" id="nuggets" class="team"><br>
+		</div>
+		<div class="column">
+			<img src="spurs.png" id="spurs" class="team"><br>
+			<img src="timberwolves.png" id="timberwolves" class="team"><br>
+			<img src="thunder.png" id="thunder" class="team"><br>
+			<img src="wizards.png" id="wizards" class="team"><br>
+			<img src="pacers.png" id="pacers" class="team"><br>
+			<img src="raptors.png" id="raptors" class="team"><br>
+		</div>
+		<div class="column">
+			<img src="suns.png" id="suns" class="team"><br>
+			<img src="warriors.png" id="warriors" class="team"><br>
+			<img src="pelicans.png" id="pelicans" class="team"><br>
+			<img src="rockets.png" id="rockets" class="team"><br>
+			<img src="pistons.png" id="pistons" class="team"><br>
+			<img src="sixers.png" id="sixers" class="team"><br>
+		</div>
+	</div>
+</body>
+</html>

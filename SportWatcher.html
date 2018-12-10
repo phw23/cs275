@@ -13,8 +13,10 @@
 		}
 
 		body {
+			background-image: url('jordan.jpg');
 			background-repeat: no-repeat;
 			background-attachment: fixed;
+			background-size: cover;
 			background-position-x: center;
 			background-position-y: bottom 0px;
 			background-color: black;
@@ -25,7 +27,7 @@
 			text-align: center;
 			border-bottom: 1px solid white;
 			padding-bottom: 15px;
-			letter-spacing: 2px;
+			letter-spacing: 5px;
 		}
 
 		h2 {
@@ -36,26 +38,12 @@
 			font-size: 18px;
 			letter-spacing: 2px;
 		}
-		.login, #login {
-			width: auto;
-			text-align: center;
-			color: black;
-		}
-		.login, #loginSignup {
-			width: auto;
-			text-align: center;
-			color: black;
-		}
+
 		.login, #signup {
 			width: auto;
 			text-align: center;
-			color: black;
 		}
-		.login, #signupButton {
-			width: auto;
-			text-align: center;
-			color: black;
-		}
+
 		div#signup {
 			display: none;
 		}
@@ -95,42 +83,85 @@
  			text-align: center; 
 		}
 	</style>
+	<script>
+		function signUp() {
+			var URL = "/signup";
+			var username = document.getElementById("username").value;
+			var password = document.getElementById("password").value;
+			var team = document.getElementById("team").value;
+			$.ajax({
+				url: URL,
+				type: "GET",
+				data: {
+					"user":username,
+					"password":password,
+					"team":team
+				},
+				success: function(){
+					alert("Success");
+				},
+				error: function(){
+					alert("Error");
+				}
+			});
+		}
+
+		function login() {
+			var URL = "/login";
+			var username = document.getElementById("userLogin").value;
+			var password = document.getElementById("passwordLogin").value;
+			$.ajax({
+				url: URL,
+				type: "GET", 
+				data: {
+					"user":username,
+					"password":password
+				}, 
+				success: function(){
+					window.open("/userpage.html","_self")
+				},
+				error: function(){
+					window.open("/userpage.html","_self");
+				}
+			});			
+		}
+	</script>
 </header>
 <body>
-	<h1>WELCOME TO SPORT WATCHER!</h1>
+	<h1>SPORTWATCHER</h1>
 	<div id="login">
-		<form action="/login" class="login" method="POST">
+		<form action="/login" class="login">
 			<h2>LOG IN TO ACCESS YOUR ACCOUNT</h2>
 			<p>USERNAME:</p>
-			<input type="text" placeholder="ENTER USERNAME" class="input" id="userLogin" name="user" required>
+			<input type="text" placeholder="ENTER USERNAME" class="input" id="userLogin" required>
 			<br>
 			<p>PASSWORD:</p>
-			<input type="password" placeholder="ENTER PASSWORD" class="input" id="passwordLogin" name="password" required>
+			<input type="password" placeholder="ENTER PASSWORD" class="input" id="passwordLogin" required>
 			<br><br>
-			<button type="submit" id="login">LOGIN</button>
+			<button type="submit" id="submit" onclick="login()">LOGIN</button>
 			<br><br>
-			<button type="button" id="loginSignup">SIGN UP</button>
+			<button type="button" id="signup">SIGN UP</button>
 		</form>
 	</div>
 	<script>
 		$(document).ready(function(){
-			$("button#loginSignup").click(function(){
+			$("button#signup").click(function(){
 				$("form.login").hide();
 				$("div#signup").show();
 			});
 		});
 	</script>
 	<div id="signup">
-		<form action="/signup" id="signup" method="POST">
+		<form action="/signup" id="signup">
 			<h2>SIGN UP TO CREATE YOUR ACCOUNT</h2>
 			<p>USERNAME:</p>
-			<input type="text" placeholder="ENTER USERNAME" class="input" id="username" name='user' required>
+			<input type="text" placeholder="ENTER USERNAME" class="input" id="username" required>
 			<br>
 			<p>PASSWORD:</p>
-			<input type="password" placeholder="ENTER PASSWORD" class="input" id="password" name='password' required>
+			<input type="password" placeholder="ENTER PASSWORD" class="input" id="password" required>
 			<br>
 			<p>FAVORITE NBA TEAM:</p>
-			<select id="team" name="team">
+			<select id="team" name="teams">
 				<option value="default" disabled selected value>Choose an NBA team</option>
 				<option value="hawks">Atlanta Hawks</option>
   				<option value="celtics">Boston Celtics</option>
@@ -164,7 +195,7 @@
   				<option value="wizards">Washington Wizards</option>
 			</select>
 			<br><br>
-			<button type="submit" id="signupButton">SIGN UP</button>
+			<button type="submit" id="signup" onclick="signUp()">SIGN UP</button>
 		</form>
 	</div>
 </body>
