@@ -4,12 +4,16 @@ var mysql = require('mysql');
 var bcrypt = require('bcryptjs');
 var fs = require('fs');
 var bodyParser = require("body-parser");
-var nbaFile = require('./NBA')
+var nbaFile = require('./NBA');
+var gamesFile = require('./Games');
 
 var app = express();
 app.use(express.static('.'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+var games = new gamesFile.Games()
+var nba = new nbaFile.NBA();
 
 // Connect to database
 var con = mysql.createConnection({
@@ -42,7 +46,6 @@ app.get('/teams', function (req, resp) {
 })
 
 // Create an account
-//Todo: Make return not boolean
 app.post('/signup', function (req, resp) {
 	var user = req.body.user;
 	var password = req.body.password;
@@ -60,14 +63,14 @@ app.post('/signup', function (req, resp) {
 					con.query(insertStr, function (err) {
 						if (err) {
 							console.log('Error during user insert: ' + err)
-							resp.send(false)
+							resp.send(fs.readFileSync('SportWatcher.html', 'utf8'));
 						}
 						else {
 							var queryStr = 'Select id from team WHERE team="' + team + '";'
 							con.query(queryStr, function (err, rows, fields) {
 								if (err) {
 									console.log('Error during team query processing: ' + err);
-									resp.send(false)
+									resp.send(fs.readFileSync('SportWatcher.html', 'utf8'));
 								} else {
 									if (rows.length > 0) {
 										var teamID = rows[0].id;
@@ -76,28 +79,30 @@ app.post('/signup', function (req, resp) {
 										con.query(insertTeamStr, function (err) {
 											if (err) {
 												console.log('Error during user_team insert: ' + err)
-												resp.send(false)
+												resp.send(fs.readFileSync('SportWatcher.html', 'utf8'));
 											}
 											else {
-												resp.send(true);
+												games.once('Finished', function (msg) {
+													resp.send(msg);
+												})
+												games.displayGames();
 											}
 										});
 									} else {
 										console.log("Improper team selected");
-										resp.send(false)
+										resp.send(fs.readFileSync('SportWatcher.html', 'utf8'));
 									}
 								}
 							});
 						}
 					});
 				});
-			} else { (resp.send(false)) }
+			} else { resp.send(fs.readFileSync('SportWatcher.html', 'utf8')); }
 		}
 	});
 })
 
 // Validate username password combination
-// Todo: Make return not boolean
 app.post('/login', function (req, resp) {
 	var user = req.body.user;
 	var password = req.body.password;
@@ -109,34 +114,26 @@ app.post('/login', function (req, resp) {
 			row = rows.find(u => u.id === user)
 			if (rows.length > 0) {
 				bcrypt.compare(password, row.pass, function (err, result) {
-					resp.send(result)
+					if (result){
+						games.once('Finished', function (msg) {
+							resp.send(msg);
+						})
+						games.displayGames();
+					} else {resp.send(fs.readFileSync('SportWatcher.html', 'utf8'));}
 				});
-			} else (resp.send(false))
+			} else {resp.send(fs.readFileSync('SportWatcher.html', 'utf8'));}
 		}
 	});
 })
 
-var nba = new nbaFile.NBA();
-// Get request takes a team name (i.e. "Knicks" or "Celtics") and returns stats about their game today if one exists
-app.get('/api/team', function (req, resp) {
+
+// Returns game by id
+app.get('/api/game', function (req, resp) {
+	var id = req.query.id;
 	nba.once('Finished', function (msg) {
 		resp.send(msg);
 	})
-	var teamName = req.query.team
-	// Todo: Protect from injection later
-	var queryStr = 'Select api from team WHERE team="' + teamName + '";'
-	con.query(queryStr, function (err, rows, fields) {
-		if (err) {
-			console.log('Error during query processing: ' + err);
-			resp.send('Error during query processing: ' + err);
-		} else {
-			if (rows.length > 0) {
-				nba.getGame(rows[0].api);
-			} else {
-				resp.send("Improper team selected");
-			}
-		}
-	});
+	nba.getGameByID(id);
 })
 
 // Returns all games for today
