@@ -111,8 +111,13 @@
 		$(document).ready(function(){
 			$(".team").click(function(){
 				var id = $(this).attr('id');
+				var URL = "/api/team";
 				$.ajax({
-					
+					url: URL,
+					type: "GET",
+					data: {
+						"team":id
+					}
 				})
 			})
 		})
