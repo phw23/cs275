@@ -36,7 +36,11 @@ class NBA extends EventEmitter {
         request.get(URL2, function (error, response, body) {
             var gameInfo = JSON.parse(body)
             // Todo: Format Game data into HTML string to be displayed
-            self.emit('Finished', gameInfo);
+            var str = ""
+            str += "<div>"+gameInfo.home.name+": "+gameInfo.home.points+"</div>"
+            str += "<div>"+gameInfo.away.name+": "+gameInfo.away.points+"</div>"
+            str += "<br>"
+            self.emit('Finished', str);
         })
     }
 }

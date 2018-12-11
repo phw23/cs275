@@ -16,10 +16,47 @@ class Games extends EventEmitter {
             var str=`
                 <html>
                     <head>
-                        <meta name="viewport" content="width = device-width, initial-scale = 1">
-                        <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
-                        <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-                        <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+                        <meta charset="utf-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1">
+                        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
+                        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+                        <style>
+                            * {
+                                font-family: 'Raleway';
+                                color: white;
+                            }
+                            body {
+                                background-repeat: no-repeat;
+                                background-attachment: fixed;
+                                background-position-x: center;
+                                background-position-y: bottom 0px;
+                                background-color: black;
+                            }
+                            h1 {
+                                width: 100%;
+                                text-align: center;
+                                border-bottom: 1px solid white;
+                                padding-bottom: 15px;
+                                letter-spacing: 2px;
+                            }
+                            div {
+                                text-align: center;
+                            }
+                            p {
+                                font-size: 18px;
+                                letter-spacing: 2px;
+                            }
+                            ::-webkit-input-placeholder {
+                                color: black;
+                                    text-align: center;
+                            }
+                    
+                            :-ms-input-placeholder {  
+                                color: black;
+                                text-align: center; 
+                            }
+                        </style>
                         <script>
                             function test(){alert('hello')}
                             function handleClick(gameID) {
@@ -33,7 +70,7 @@ class Games extends EventEmitter {
                                     data: {},
                                     dataType: "html",
                                     success: function (msg) {
-                                        $("#outputDiv").html(msg+'<br><br>');
+                                        $("#outputDiv").html(msg);
                                     },
                                     error: function (xhr, ajaxOptions, thrownError) {
                                         $("#outputDiv").html("Error fetching " + URL + "<br><br>");
@@ -42,8 +79,8 @@ class Games extends EventEmitter {
                             }
                         </script>
                     </head>
-                    
                     <body>
+                        <h1>WELCOME TO SPORT WATCHER!</h1>  
             `
             str += `    <div id='outputDiv'></div>`
             games.forEach(game => {
