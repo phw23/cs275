@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+        <!-- Include JQuery, AJAX, JQuery Mobile for styling, responsive design and webpage interactions-->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js">
+        </script>
+        <link type="text/css" rel="stylesheet"
+        href="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script type="text/javascript" id="Hello">
+            // Function definitions:
+            // Sum(n) queries local server to run a function which sums the values 1 to the input from the user, n
+            // Fac(n) queries local server to run a function which returns the factorial of a user input number
+            // funcSelect() checks selected value of dropdown and runs appropriate function
+            console.log("running..")
+            function getTopics(){
+                //var URL = 'http://localhost:8080/topics'
+                var URL = 'http://localhost:8080/gameStats?team=Bulls'
+
+                $.ajax({
+                    type: "GET",
+                    url : URL,
+                    dataType : "html",
+                    success : function(response){
+                        console.log(response);
+                        $.ajax({
+                            type: "GET",
+                            url: 'http://localhost:8080/game?id='+response,
+                            dataType: "text",
+                            success: function(resp){
+                                console.log(resp);
+                            },
+
+                        });
+                       
+                    },
+                    
+                    });
+            }
+
+            
+           
+            
+            </script>
+  <head>
+    <!-- HTML structure for page-->
+    <title>
+        Practicum
+    </title>
+</head>
+<body id="test">
+
+    <div data-role="header" data-position="fixed">
+        <h3> <center>Practicum</center></h3>
+    </div>
+    
+    
+    <input type="button" value="Get Topics" onclick="getTopics()">
+
+    <div id="current">
+        
+    </div>
+</body>
+<div data-role="footer" data-position="fixed">
+        <h1><center>Peter Winslow</center></h1>
+    </div>
+</html>
