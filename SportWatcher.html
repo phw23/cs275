@@ -77,6 +77,7 @@
 			var URL = "/signup";
 			var username = document.getElementById("username").value;
 			var password = document.getElementById("password").value;
+			var team = $("#team").find('option:selected').val();
 			$.ajax({
 				url: URL,
 				type: "POST",
@@ -189,7 +190,7 @@
   				<option value="warriors">Golden State Warriors</option>
   				<option value="rockets">Houston Rockets</option>
   				<option value="pacers">Indiana Pacers</option>
-  				<option value="clippers">Clippers</option>
+  				<option value="clippers">Los Angeles Clippers</option>
   				<option value="lakers">Los Angeles Lakers</option>
   				<option value="grizzlies">Memphis Grizzlies</option>
   				<option value="heat">Miami Heat</option>
