@@ -3,7 +3,10 @@ var express = require('express');
 var mysql = require('mysql');
 var bcrypt = require('bcryptjs');
 var fs = require('fs');
+var request = require('request');
 var bodyParser = require("body-parser");
+var queryModule = require('./teamQuery.js');
+var q = new queryModule.teamQuery();
 var nbaFile = require('./NBA');
 var gamesFile = require('./Games');
 
@@ -12,8 +15,6 @@ app.use(express.static('.'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-var queryModule = require('./teamQuery.js');
-var q = new queryModule.teamQuery();
 
 var games = new gamesFile.Games()
 var nba = new nbaFile.NBA();
@@ -137,17 +138,19 @@ app.post('/login', function (req, resp) {
 
 
 // Returns game by id
-app.get('/api/game', function (req, resp) {
+app.get('/game', function (req, resp) {
 	var team = req.query.team;
+	// var team = 'Pistons';
+	// console.log(team);
 	var today = new Date();
         var date = {
             year: today.getFullYear(),
             month: today.getMonth() + 1,
             day: today.getDate()
-        }
+        };
         // Today's Schedule URL
         var url1 = 'http://api.sportradar.us/nba/trial/v5/en/games/' + date.year + '/' + date.month + '/' + date.day + '/' + 'schedule.json?api_key=6t44kv4tbv7sa3px9uhf4fqd';
-    // var url1 = "http://api.sportradar.us/nba/trial/v5/en/games/2018/12/04/schedule.json?api_key=6t44kv4tbv7sa3px9uhf4fqd"
+    // var url1 = "http://api.sportradar.us/nba/trial/v5/en/games/2018/12/10/schedule.json?api_key=6t44kv4tbv7sa3px9uhf4fqd"
     q.once('yoyo',function(msg){
         
         request.get(url1, function(error, response, body){
@@ -159,34 +162,38 @@ app.get('/api/game', function (req, resp) {
                     //console.log("I found the Bulls Game!");
                     var url2 ="https://api.sportradar.us/nba/trial/v5/en/games/"+json.games[i].id+"/summary.json?api_key=6t44kv4tbv7sa3px9uhf4fqd";
                     // res.write(""+url2)
-                    res.write(""+json.games[i].id);
+                    resp.write(""+json.games[i].id);
                     break;
                 }
                 else if (json.games[i].home.id == msg){
-                    res.write(""+json.games[i].id);
+                    resp.write(""+json.games[i].id);
                     break;
                 }
             }
             
-            res.end();
+            resp.end();
             });
     })
     q.query(team);
 })
 
 // Returns all games for today
-app.get('/api/stats', function (req, resp) {
-	var team = req.query.id;
+app.get('/stats', function (req, resp) {
+	console.log("testing!")
+	var team = ""+req.query.id;
+	console.log(team);
+	// var url = "https://api.sportradar.us/nba/trial/v5/en/games/3d49aa5c-2b02-49c8-b1a8-b7b6d1f10acd/summary.json?api_key=6t44kv4tbv7sa3px9uhf4fqd";
     var url = "https://api.sportradar.us/nba/trial/v5/en/games/"+team+"/summary.json?api_key=6t44kv4tbv7sa3px9uhf4fqd";
     request.get(url, function(error, response, body){
-        var json = JSON.parse(body);
+		// console.log(body);
+		var json = JSON.parse(body);
         var str = "";
         str += ""+json.home.name;
         str += ",";
         str += ""+json.home.points+"*";
         str += ""+json.away.name +","+json.away.points;
-        res.write(str);
-        res.end();
+        resp.write(str);
+        resp.end();
 
     });
 })

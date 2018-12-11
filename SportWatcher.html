@@ -11,7 +11,6 @@
 			font-family: 'Raleway';
 			color: white;
 		}
-
 		body {
 			background-image: url('jordan.jpg');
 			background-repeat: no-repeat;
@@ -21,7 +20,6 @@
 			background-position-y: bottom 0px;
 			background-color: black;
 		}
-
 		h1 {
 			width: 100%;
 			text-align: center;
@@ -29,32 +27,26 @@
 			padding-bottom: 15px;
 			letter-spacing: 5px;
 		}
-
 		h2 {
 			letter-spacing: 2px;	
 		}
-
 		p {
 			font-size: 18px;
 			letter-spacing: 2px;
 		}
-
 		.login, #signup {
 			width: auto;
 			text-align: center;
 		}
-
 		div#signup, div#games {
 			display: none;
 		}
-
 		.input, select#team, select option {
 			width: 200px;
 			height: 20px;
 			border-radius: 5px;
 			color: black;
 		}
-
 		#submit, button#signup, #select {
 			color: black;
 		    border-width: 2px;
@@ -67,17 +59,14 @@
 			border-radius: 5px;
 			margin: 0 auto;
 		}
-
 		#signup {
 			position: relative;
 			right: 2px;
 		}
-
 		::-webkit-input-placeholder {
 			color: black;
   			text-align: center;
 		}
-
 		:-ms-input-placeholder {  
  			color: black;
  			text-align: center; 
@@ -105,7 +94,6 @@
 				}
 			});
 		}
-
 		function login() {
 			var URL = "/login";
 			var username = document.getElementById("userLogin").value;
@@ -126,22 +114,26 @@
 				}
 			});			
 		}
-
 		function selectTeam() {
-			var team = document.getElementById("team").value;
-			var url = 'http://localhost:8080/gameStats?team=' + team + '/api/game';
+			console.log($("#BLAH").find('option:selected').val());
+			var team = $("#BLAH").find('option:selected').val();
+			var url = 'http://localhost:8080/game?team=' + team;
 			$.ajax({
                 type: "GET",
                 url : url,
                 dataType : "html",
                 success : function(response){
-                	var url2 = 'http://localhost:8080/game?id='+ response + 'api/stats';
+                	var url2 = 'http://localhost:8080/stats?id='+ response;
                 	$.ajax({
                 	    type: "GET",
-                	    url: url2,
+                	    url: 'http://localhost:8080/stats?id='+ response,
                 	    dataType: "text",
                 	    success: function(resp){
-               			    $("#games").htm(resp);
+							var str = resp.split("*");
+							var str1 = str[0].split(',');
+							var str2 = str[1].split(',');
+			
+               			    $("#games").html(str1[0]+" : "+str1[1]+"    "+str2[0]+" : "+str2[1]);
                 		},
                 	});
                 },
@@ -183,8 +175,8 @@
 			<input type="password" placeholder="ENTER PASSWORD" class="input" id="password" required>
 			<br>
 			<p>FAVORITE NBA TEAM:</p>
-			<select id="team" name="teams">
-				<option value="default" disabled selected value>Choose an NBA team</option>
+			<select id="team">
+				<!-- <option value="default" disabled selected value>Choose an NBA team</option> -->
 				<option value="hawks">Atlanta Hawks</option>
   				<option value="celtics">Boston Celtics</option>
   				<option value="nets">Brooklyn Nets</option>
@@ -197,7 +189,7 @@
   				<option value="warriors">Golden State Warriors</option>
   				<option value="rockets">Houston Rockets</option>
   				<option value="pacers">Indiana Pacers</option>
-  				<option value="clippers">LA Clippers</option>
+  				<option value="clippers">Clippers</option>
   				<option value="lakers">Los Angeles Lakers</option>
   				<option value="grizzlies">Memphis Grizzlies</option>
   				<option value="heat">Miami Heat</option>
@@ -221,38 +213,38 @@
 		</div>
 	</div>
 	<div id="games">
-		<select id="team" name="teams">
-			<option value="default" disabled selected value>Choose an NBA team</option>
-			<option value="hawks">Atlanta Hawks</option>
-  			<option value="celtics">Boston Celtics</option>
-  			<option value="nets">Brooklyn Nets</option>
-  			<option value="hornets">Charlotte Hornets</option>
-  			<option value="bulls">Chicago Bulls</option>
-  			<option value="cavaliers">Cleveland Cavaliers</option>
-  			<option value="mavericks">Dallas Mavericks</option>
-  			<option value="nuggets">Denver Nuggets</option>
-  			<option value="pistons">Detroit Pistons</option>
-  			<option value="warriors">Golden State Warriors</option>
-  			<option value="rockets">Houston Rockets</option>
-  			<option value="pacers">Indiana Pacers</option>
-  			<option value="clippers">LA Clippers</option>
-  			<option value="lakers">Los Angeles Lakers</option>
-  			<option value="grizzlies">Memphis Grizzlies</option>
-  			<option value="heat">Miami Heat</option>
-  			<option value="bucks">Milwaukee Bucks</option>
-  			<option value="timberwolves">Minnesota Timberwolves</option>
-  			<option value="pelicans">New Orleans Pelicans</option>
-  			<option value="knicks">New York Knicks</option>
-  			<option value="thunder">Oklahoma City Thunder</option>
-  			<option value="magic">Orlando Magic</option>
+		<select id="BLAH">
+			<!-- <option value="default" disabled selected value>Choose an NBA team</option> -->
+			<option value="Hawks">Atlanta Hawks</option>
+  			<option value="Celtics">Boston Celtics</option>
+  			<option value="Nets">Brooklyn Nets</option>
+  			<option value="Hornets">Charlotte Hornets</option>
+  			<option value="Bulls">Chicago Bulls</option>
+  			<option value="Cavaliers">Cleveland Cavaliers</option>
+  			<option value="Mavericks">Dallas Mavericks</option>
+  			<option value="Nuggets">Denver Nuggets</option>
+  			<option value="Pistons">Detroit Pistons</option>
+  			<option value="Warriors">Golden State Warriors</option>
+  			<option value="Rockets">Houston Rockets</option>
+  			<option value="Pacers">Indiana Pacers</option>
+  			<option value="Clippers">LA Clippers</option>
+  			<option value="Lakers">Los Angeles Lakers</option>
+  			<option value="Grizzlies">Memphis Grizzlies</option>
+  			<option value="Heat">Miami Heat</option>
+  			<option value="Bucks">Milwaukee Bucks</option>
+  			<option value="Timberwolves">Minnesota Timberwolves</option>
+  			<option value="Pelicans">New Orleans Pelicans</option>
+  			<option value="Knicks">New York Knicks</option>
+  			<option value="Thunder">Oklahoma City Thunder</option>
+  			<option value="Magic">Orlando Magic</option>
   			<option value="76ers">Philadelphia 76ers</option>
-  			<option value="suns">Phoenix Suns</option>
-  			<option value="blazers">Portland Trail Blazers</option>
-  			<option value="kings">Sacramento Kings</option>
-  			<option value="spurs">San Antonio Spurs</option>
-  			<option value="raptors">Toronto Raptors</option>
-  			<option value="jazz">Utah Jazz</option>
-  			<option value="wizards">Washington Wizards</option>
+  			<option value="Suns">Phoenix Suns</option>
+  			<option value="Blazers">Portland Trail Blazers</option>
+  			<option value="Kings">Sacramento Kings</option>
+  			<option value="Spurs">San Antonio Spurs</option>
+  			<option value="Raptors">Toronto Raptors</option>
+  			<option value="Jazz">Utah Jazz</option>
+  			<option value="Wizards">Washington Wizards</option>
 		</select>
 		<button onclick="selectTeam()" id="select">SELECT TEAM</button>
 	</div>
