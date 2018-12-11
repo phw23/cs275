@@ -91,14 +91,14 @@
 			var team = document.getElementById("team").value;
 			$.ajax({
 				url: URL,
-				type: "GET",
+				type: "POST",
 				data: {
 					"user":username,
 					"password":password,
 					"team":team
 				},
-				success: function(){
-					alert("Success");
+				success: function(msg){
+					$("#signup").html(msg);
 				},
 				error: function(){
 					alert("Error");
@@ -112,16 +112,16 @@
 			var password = document.getElementById("passwordLogin").value;
 			$.ajax({
 				url: URL,
-				type: "GET", 
+				type: "POST", 
 				data: {
 					"user":username,
 					"password":password
 				}, 
 				success: function(){
-					window.open("/userpage.html","_self")
+					$(".login").html(msg);
 				},
 				error: function(){
-					window.open("/userpage.html","_self");
+					alert("Error");
 				}
 			});			
 		}
