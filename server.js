@@ -158,14 +158,9 @@ app.get('/game', function (req, resp) {
             var numGames = json.games.length;
             
             for(var i = 0;i<numGames;i++){
-                if (json.games[i].away.id == msg){
-                    //console.log("I found the Bulls Game!");
-                    var url2 ="https://api.sportradar.us/nba/trial/v5/en/games/"+json.games[i].id+"/summary.json?api_key=6t44kv4tbv7sa3px9uhf4fqd";
+                if (json.games[i].away.id === msg || json.games[i].home.id === msg){
+                    console.log("I found the Game!");
                     // res.write(""+url2)
-                    resp.write(""+json.games[i].id);
-                    break;
-                }
-                else if (json.games[i].home.id == msg){
                     resp.write(""+json.games[i].id);
                     break;
                 }

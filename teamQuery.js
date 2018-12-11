@@ -30,7 +30,7 @@ class teamQuery extends EventEmitter{
         con.query("SELECT api from team WHERE team.team='"+team+"';",
     function(err, rows, fields){
         if (err) {
-            console.log("ERROR BITCH");
+            console.log("ERROR BITCH: "+err);
         }
         else{
             var apiKey = rows[0].api;
