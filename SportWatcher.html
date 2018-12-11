@@ -117,7 +117,6 @@
 					"user":username,
 					"password":password
 				}, 
-				dataType: 'html',
 				success: function(){
 					$(".login").hide();
 					$("#games").show();
@@ -129,23 +128,25 @@
 		}
 
 		function selectTeam() {
-			var URL = '/api/game';
 			var team = document.getElementById("team").value;
+			var url = 'http://localhost:8080/gameStats?team=' + team + '/api/game';
 			$.ajax({
-				url: URL,
-				type: "GET", 
-				data: {
-					"team":team
-				}, 
-				dataType: 'html',
-				success: function(){
-					alert("Success!");
-				},
-				error: function(){
-					alert("Error");
-				}
-			});	
-		}
+                type: "GET",
+                url : url,
+                dataType : "html",
+                success : function(response){
+                	var url2 = 'http://localhost:8080/game?id='+ response + 'api/stats';
+                	$.ajax({
+                	    type: "GET",
+                	    url: url2,
+                	    dataType: "text",
+                	    success: function(resp){
+               			    $("#games").htm(resp);
+                		},
+                	});
+                },
+            });
+        }
 	</script>
 </header>
 <body>
@@ -167,7 +168,7 @@
 	<script>
 		$(document).ready(function(){
 			$("button#signup").click(function(){
-				$("form.login").hide();
+				$("div.login").hide();
 				$("div#signup").show();
 			});
 		});
